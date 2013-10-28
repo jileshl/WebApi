@@ -2,3 +2,4 @@ django==1.4.1
 django-tastypie==0.9.10
 sqlautocode
 sqlalchemy
+test...
