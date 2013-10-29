@@ -15,10 +15,10 @@ from sqlalchemy.pool import NullPool, QueuePool, StaticPool
 
 import logging
 log = logging.getLogger()
-connections_dictionary = {'default': {'host': '10.55.36.214',
+connections_dictionary = {'default': {'host': '10.55.86.214',
                                       'Dialect': 'oracle',
                                       'Driver': 'cx_oracle',
-                                      'port':'1433',
+                                      'port':'1521',
                                       'User': 'oracle',
                                       'Password': 'system',
                                       'Name': 'xe'}}
@@ -61,7 +61,7 @@ def _init_engine(connection_key, connection_dictionary):
         connection_dictionary['Name'])
 
     ENGINES[connection_key]['engine'] = create_engine(
-        '%s+%s://%s:%s@%s' % (
+        '%s+%s://%s:%s@%s/%s' % (
             connection_dictionary['Dialect'],
             # The actual import is cx_Oracle,
             # but SQLAlchemy wants cx_oracle, so we lowercase it
@@ -70,6 +70,7 @@ def _init_engine(connection_key, connection_dictionary):
             connection_dictionary['Driver'].lower(),
             connection_dictionary['User'],
             connection_dictionary['Password'],
+            connection_dictionary['host'],
             connection_dictionary['Name']),
         coerce_to_decimal=False,
         convert_unicode=True,
@@ -139,8 +140,6 @@ def get_orm_session(connection_key):
             session = ENGINES[connection_key]['sessionmaker']()
             ping_connection(session)
         except Exception as e:
-            log.error("Connection error; retrying: %s" % (str(e),),
-                      extra=settings.LOGGING_EXTRA_DATA)
             session.bind.pool.dispose()
             time.sleep(CONNECT_RETRY_WAIT_INTERVAL)
             continue
@@ -149,8 +148,6 @@ def get_orm_session(connection_key):
         break
 
     ex_type, ex_value, ex_traceback = sys.exc_info()
-    log.error("Connection failed: %s %s" % (ex_type, ex_value),
-              extra=settings.LOGGING_EXTRA_DATA)
     raise ex_type, ex_value, ex_traceback
 
 
