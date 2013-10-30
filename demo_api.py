@@ -17,7 +17,7 @@ import re
 import datetime
 
 
-class PayoffQuoteResponseResource(Resource):
+class LocationResource(Resource):
     """
     Resource that represents a PayoffQuoteResponse.  Provides methods that
     are used when exposing resource via a RESTful API.
