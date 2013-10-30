@@ -18,10 +18,6 @@ import datetime
 
 
 class LocationResource(Resource):
-    """
-    Resource that represents a PayoffQuoteResponse.  Provides methods that
-    are used when exposing resource via a RESTful API.
-    """
     class Meta:
         '''
         meta class for resource
@@ -32,9 +28,6 @@ class LocationResource(Resource):
         allowed_methods = ['post']
 
     def obj_create(self, bundle, request=None, **kwargs):
-        '''
-        function to pass data to dtplatform
-        '''
         bundle = self.full_hydrate(bundle)
         resp = create_location(bundle.data)
         return resp
