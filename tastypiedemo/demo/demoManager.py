@@ -15,7 +15,7 @@ class DemoManager(object):
         return result_list
     
    
-    def AddJob(self , **kargs):              
+    def AddJob(self, **kargs):
         session = db.get_orm_session('default')
         Jobs = Job() 
         Jobs.job_id  = kargs['job_id']      
