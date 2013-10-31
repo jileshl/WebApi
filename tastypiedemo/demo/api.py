@@ -1,7 +1,7 @@
 from tastypie.resources import Resource
+from tastypie.authorization import Authorization
 from demo.models.job import Job
 from demo.demoManager import DemoManager
-from tastypie.authorization import Authorization
 
 
 class EmployeeResource(Resource):
@@ -25,23 +25,24 @@ class EmployeeResource(Resource):
         bundle.data = bundle.obj.__dict__
         return bundle
     
-class JobsResource(Resource):
-    class Meta:
-        object_class = Job
+class JobResource(Resource):
+    class Meta:     
+        object_class = Job 
         resource_name = 'addjob'
         allowed_methods = ['post']
+        authorization = Authorization()
         urlconf_namespace = None
         include_resource_uri = False
-        authorization = Authorization()
         default_format = 'application/json'
         
     def obj_create(self, bundle, request=None, **kwargs):
-        #import pdb; pdb.set_trace()        
-        bundle = self.full_hydrate(bundle)        
+        import pdb;pdb.set_trace()
+        bundle = self.full_hydrate(bundle)
         resp = DemoManager().AddJob(**bundle.data)
         return resp
     
-    def get_resource_uri(self, bundle_or_obj=None, url_name='uri_dispatch_list'):
+
+    def get_resource_uri(self, bundle_or_obj=None, url_name='api_dispatch_list'):
         '''
         method to provide reverse uri for service call
         '''
