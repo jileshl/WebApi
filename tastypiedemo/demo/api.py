@@ -7,7 +7,7 @@ from demo.demoManager import DemoManager
 class EmployeeResource(Resource):
     class Meta:        
         resource_name = 'jobs'
-        allowed_methods = ['get']
+        allowed_methods = ['get', 'post']
         urlconf_namespace = None
         include_resource_uri = False
 
@@ -20,11 +20,21 @@ class EmployeeResource(Resource):
         result = DemoManager().GetJobList()
         return result
     
+    def obj_create(self, bundle, request=None, **kwargs):
+        bundle = self.full_hydrate(bundle)
+        resp = DemoManager().AddEmployee(**bundle.data)
+        return resp
     
     def dehydrate(self, bundle):
         bundle.data = bundle.obj.__dict__
         return bundle
     
+    def get_resource_uri(self, bundle_or_obj=None, url_name='api_dispatch_list'):
+        '''
+        method to provide reverse uri for service call
+        '''
+        return ""
+
 class JobResource(Resource):
     class Meta:     
         object_class = Job 
