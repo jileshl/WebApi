@@ -15,7 +15,7 @@ from sqlalchemy.pool import NullPool, QueuePool, StaticPool
 
 import logging
 log = logging.getLogger()
-connections_dictionary = {'default': {'host': '10.55.86.68',
+connections_dictionary = {'default': {'host': '10.55.86.69',
                                       'Dialect': 'oracle',
                                       'Driver': 'cx_oracle',
                                       'port':'1521',
