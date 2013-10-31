@@ -1,10 +1,10 @@
 from django.conf.urls import patterns, include, url
-from demo.api import EmployeeResource, JobAddResource
+from demo.api import EmployeeResource, JobResource
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
 # admin.autodiscover()
 employee_job = EmployeeResource()
-add_job=JobAddResource()
+add_job=JobResource()
 
 
 urlpatterns = patterns('',
